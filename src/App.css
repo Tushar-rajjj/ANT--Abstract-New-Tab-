@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'CustomFont';
+  src: url('./assets/furuko.ttf'); /* Adjust path and format accordingly */
+  /* font-weight: 700; */
+  /* font-style: normal; */
+  /* font-display: swap; */
+}
+
+/* 2. Register it within Tailwind's theme */
+@theme {
+  --font-display: 'CustomFont';
+}
