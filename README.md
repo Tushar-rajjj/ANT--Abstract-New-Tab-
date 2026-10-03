@@ -23,8 +23,8 @@ displays, and visual elements.
   page.
 - 🌌 **Modern Visual Design** --- Dark purple/black background with
   glowing gradients, glassmorphism, and soft shadows.
-- 📱 **Responsive UI** --- Designed to adapt to different screen
-  sizes.
+<!-- - 📱 **Responsive UI** --- Designed to adapt to different screen
+  sizes. -->
 - 🧱 **Modular Architecture** --- Built so additional widgets and
   features can be added easily.
 

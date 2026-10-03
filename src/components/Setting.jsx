@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import batman1 from "../assets/batman1.png";
 import treeImage from "../assets/tree.webp";
 import first from "../assets/3.webp";
+import calendar from "../assets/calender.png";
 
 const Setting = (props) => {
   return (
     <div
-      className="w-1/3 h-full rounded-4xl flex flex-col items-center justify-start p-8 bg-[#c1c1c10d] backdrop-blur-lg absolute top-0 right-0 z-100"
+      className="w-1/3 h-full min-h-0 rounded-4xl flex flex-col items-center justify-start p-8 bg-[#c1c1c10d] backdrop-blur-lg absolute top-0 right-0 z-100"
       style={{ display: props.isSettingRunning ? "flex" : "none" }}
     >
       <div className="w-full h-auto flex justify-between items-center">
@@ -31,12 +32,15 @@ const Setting = (props) => {
           </svg>
         </button>
       </div>
-      <div className="w-full h-auto flex flex-col items-start justify-start mt-4">
-        <div className="w-full h-auto flex flex-col items-start justify-start">
+      <div className="w-full h-full min-h-0 flex-1 flex flex-col items-start justify-start mt-4">
+        <div className="w-full min-h-0 flex-1 flex flex-col items-start justify-start">
           <label htmlFor="theme" className="text-gray-500 mb-2 text-lg">
             Widgets
           </label>
-          <div className="w-full relative h-full overscroll-y-auto grid grid-cols-2 gap-8 gap-x-12 ">
+          <div
+            id="widgets"
+            className="w-full min-h-0 flex-1 pt-3 scrollbar-none relative overflow-y-auto overscroll-contain grid grid-cols-2 gap-8 gap-x-12"
+          >
             <Spinner
               isSpinner={props.isSpinner}
               setIsSpinner={props.setIsSpinner}
@@ -51,6 +55,10 @@ const Setting = (props) => {
             <DigitalClock
               isDigitalClock={props.isDigitalClock}
               setIsDigitalClock={props.setIsDigitalClock}
+            />
+            <Calendar
+              isCalender={props.isCalender}
+              setIsCalender={props.setIsCalender}
             />
             <Sticker
               isSticker={props.isSticker}
@@ -101,7 +109,7 @@ const Spinner = (props) => {
         <div className="w-4 h-4 absolute top-1/2 translate-y-[-50%] right-10.5 bg-[#404040]"></div>
       </div>
       <div
-        className="w-5 p-0.5 h-auto aspect-square rounded-full flex justify-center items-center bg-[#664a4a] absolute top-0 right-0 translate-x-[50%] translate-y-[-50%]"
+        className="w-5 p-0.5 h-auto aspect-square rounded-full flex justify-center items-center bg-[#664a4a] absolute top-0 right-0 translate-x-[50%] translate-y-[-50%] cursor-pointer"
         onClick={(e) => {
           e.stopPropagation();
           props.setIsSpinner(!props.isSpinner);
@@ -230,7 +238,7 @@ const Batman = (props) => {
         style={{ filter: "drop-shadow(5px 5px 20px rgba(141,86,225,0.8))" }}
       />
       <div
-        className="w-5 p-0.5 h-auto aspect-square rounded-full flex justify-center items-center bg-[#664a4a] absolute top-0 right-0 translate-x-[50%] translate-y-[-50%]"
+        className="w-5 p-0.5 h-auto aspect-square rounded-full flex justify-center items-center bg-[#664a4a] absolute top-0 right-0 translate-x-[50%] translate-y-[-50%] cursor-pointer  "
         onClick={(e) => {
           e.stopPropagation();
           props.setIsBatman(!props.isBatman);
@@ -288,7 +296,7 @@ const Tree = (props) => {
         className="w-full h-auto object-center object-cover scale-125"
         style={{ filter: "drop-shadow(5px 5px 20px rgba(141,86,225,0.8))" }}
       />
-      <div className="w-5 p-0.5 h-auto aspect-square rounded-full flex justify-center items-center bg-[#664a4a] absolute top-0 right-0 translate-x-[50%] translate-y-[-50%]">
+      <div className="w-5 p-0.5 h-auto aspect-square rounded-full flex justify-center items-center bg-[#664a4a] absolute top-0 right-0 translate-x-[50%] translate-y-[-50%] cursor-pointer  ">
         {props.isTree ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -383,7 +391,7 @@ const Pattern = (props) => {
         ></div>
       ))}
       <div
-        className="w-5 p-0.5 h-auto aspect-square rounded-full flex justify-center items-center bg-[#664a4a] absolute top-0 right-0 translate-x-[50%] translate-y-[-50%]"
+        className="w-5 p-0.5 h-auto aspect-square rounded-full flex justify-center items-center bg-[#664a4a] absolute top-0 right-0 translate-x-[50%] translate-y-[-50%] cursor-pointer"
         onClick={(e) => {
           e.stopPropagation();
           props.setIsPattern(!props.isPattern);
@@ -436,13 +444,66 @@ const Sticker = (props) => {
         style={{ filter: "drop-shadow(5px 5px 20px rgba(141,86,225,0.8))" }}
       />
       <div
-        className="w-5 p-0.5 h-auto aspect-square rounded-full flex justify-center items-center bg-[#664a4a] absolute top-0 right-0 translate-x-[50%] translate-y-[-50%]"
+        className="w-5 p-0.5 h-auto aspect-square rounded-full flex justify-center items-center bg-[#664a4a] absolute top-0 right-0 translate-x-[50%] translate-y-[-50%] cursor-pointer"
         onClick={(e) => {
           e.stopPropagation();
           props.setIsSticker(!props.isSticker);
         }}
       >
         {props.isSticker ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            // width="20"
+            // height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-plus preview-icon w-full h-full"
+          >
+            <path d="M5 12h14" />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            // width="24"
+            // height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-minus preview-icon w-full h-full"
+          >
+            <path d="M5 12h14" />
+            <path d="M12 5v14" />
+          </svg>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const Calendar = (props) => {
+  return (
+    <div className="w-40 h-auto aspect-square rounded-2xl flex justify-center items-center relative">
+      <img
+        src={calendar}
+        alt="batman"
+        className="w-full h-auto object-center object-cover opacity-75 scale-125"
+        style={{ filter: "drop-shadow(5px 5px 20px rgba(141,86,225,0.8))" }}
+      />
+      <div
+        className="w-5 p-0.5 h-auto aspect-square rounded-full flex justify-center items-center bg-[#664a4a] absolute top-0 right-0 translate-x-[50%] translate-y-[-50%] cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          props.setIsCalender(!props.isCalender);
+        }}
+      >
+        {props.isCalender ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             // width="20"

@@ -30,7 +30,9 @@ export default function DigitalClock() {
   const [minutes, setMinutes] = useState(new Date().getMinutes());
   const [hours, setHours] = useState(new Date().getHours() % 12 || 12);
 
+  const containerRef = useRef(null);
   const parentRef = useRef(null);
+  const textRef = useRef(null);
 
   useEffect(() => {
     const today = new Date();
@@ -67,16 +69,31 @@ export default function DigitalClock() {
 
   return (
     <div
-      className="w-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center"
+      className="w-fit origin-top-left absolute px-10 left-1/2 top-1/2 rounded-2xl -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center overflow-hidden hover:border-dashed hover:border-2 hover:border-[#ffffff32] transition-all duration-30 ease-in-out"
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
       }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
+      ref={containerRef}
+      // onMouseDown={handleMouseDown}
+      // onMouseMove={handleMouseMove}
+      // onMouseUp={handleMouseUp}
+      // onMouseEnter={(e) => {
+      //   // e.target.parentElement.style.border = "1.5px solid #ffffff32";
+      //   // console.log(e.target.parentElement);
+      // }}
+      // onMouseLeave={(e) => {
+      //   // e.target.parentElement.style.border = "none";
+      //   // console.log(e.target.parentElement);
+      // }}
     >
-      <h1 className="text-[31rem] text-nowrap leading-none font-[CustomFont] mix-blend-difference backdrop-blur-[1.5px] bg-gradient-to-b scale-x-116 from-[#f5f7ff59] via-[#d9ddec4d] to-[#9ca3b851] bg-clip-text text-transparent drop-shadow-[inset_0_10px_15px_rgba(0,0,0,0.35)] drop-shadow-[inset_0_0_10px_rgba(220,225,255,0.4)]">
+      <h1
+        className="text-[31rem] text-nowrap leading-none font-[CustomFont] mix-blend-difference backdrop-blur-[1.5px] bg-gradient-to-b scale-x-116 from-[#f5f7ff59] via-[#d9ddec4d] to-[#9ca3b851] bg-clip-text text-transparent drop-shadow-[inset_0_10px_15px_rgba(0,0,0,0.35)] drop-shadow-[inset_0_0_10px_rgba(220,225,255,0.4)]"
+        ref={textRef}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         {hours.toString()}
         <small className="text-[200px] inline-block font-sans transform">
           :
@@ -104,6 +121,49 @@ export default function DigitalClock() {
         <div className="w-3 h-auto aspect-square rounded-full bg-[#ffffff32] backdrop-blur-[1.5px]"></div>
         <div className="w-3 h-auto aspect-square rounded-full bg-[#ffffff32] backdrop-blur-[1.5px]"></div>
       </div>
+      <div className="up opacity-0 hover:cursor-row-resize-resize w-full h-1 absolute top-0 left-0 bg-[#ffffff32]"></div>
+      <div
+        className="right opacity-0 hover:cursor-col-resize w-1 h-full absolute top-0 right-0 bg-[#ffffff32]"
+        onMouseDown={(e) => {
+          e.preventDefault();
+          const startX = e.clientX;
+          const startWidth = textRef.current.offsetWidth;
+          const handleMouseMove = (e) => {
+            const newWidth = startWidth + (e.clientX - startX);
+            console.log(newWidth, textRef.current);
+            containerRef.current.style.width = `${newWidth}px`;
+            containerRef.current.style.border = "dashed 2px #ffffff32";
+            textRef.current.style.scale = `${(newWidth / startWidth) * 100}% 100%`;
+          };
+          const handleMouseUp = () => {
+            document.removeEventListener("mousemove", handleMouseMove);
+            document.removeEventListener("mouseup", handleMouseUp);
+          };
+          document.addEventListener("mousemove", handleMouseMove);
+          document.addEventListener("mouseup", handleMouseUp);
+        }}
+      ></div>
+      <div
+        className="down opacity-0 hover:cursor-row-resize w-full h-1 absolute bottom-0 left-0 bg-[#ffffff32]"
+        onMouseDown={(e) => {
+          e.preventDefault();
+          const startX = e.clientY;
+          const startHeight = textRef.current.offsetHeight;
+          const handleMouseMove = (e) => {
+            const newWidth = startHeight + (e.clientY - startX);
+            console.log(newWidth, textRef.current);
+            containerRef.current.style.height = `${newWidth}px`;
+            textRef.current.style.scale = `100% ${(newWidth / startHeight) * 100}%`;
+          };
+          const handleMouseUp = () => {
+            document.removeEventListener("mousemove", handleMouseMove);
+            document.removeEventListener("mouseup", handleMouseUp);
+          };
+          document.addEventListener("mousemove", handleMouseMove);
+          document.addEventListener("mouseup", handleMouseUp);
+        }}
+      ></div>
+      <div className="left opacity-0 hover:cursor-col-resize w-1 h-full absolute top-0 left-0 bg-[#ffffff32]"></div>
     </div>
   );
 }

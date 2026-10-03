@@ -13,13 +13,14 @@ import Pattern from "./components/Pattern";
 import Spiderman from "./components/Spiderman";
 import Setting from "./components/Setting";
 import Task from "./components/Task";
+import Calender from "./components/Calendar";
 
 function App() {
   // FOR BRAVE https://search.brave.com/search?q=tushar+kumar
   // FOR GOOGLE https://www.google.com/search?q=
   const [isSettingRunning, setIsSettingRunning] = useState(false);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [isTask, setIsTask] = useState(true);
+  const [isTask, setIsTask] = useState(false);
   const [isSpinner, setIsSpinner] = useState(false);
   const [isTree, setIsTree] = useState(true);
   const [isPattern, setIsPattern] = useState(false);
@@ -27,6 +28,7 @@ function App() {
   const [isBatman, setIsBatman] = useState(false);
   const [isSpiderman, setIsSpiderman] = useState(true);
   const [isDigitalClock, setIsDigitalClock] = useState(true);
+  const [isCalender, setIsCalender] = useState(false);
   return (
     <>
       <div
@@ -50,6 +52,7 @@ function App() {
             {isBatman && <Batman />}
             {isSpiderman && <Spiderman />}
             {isDigitalClock && <DigitalClock />}
+            {isCalender && <Calender />}
             <div className=""></div>
 
             <div className="bottom flex justify-center items-center p-4 mb-5 w-full h-20">
@@ -235,6 +238,8 @@ function App() {
               setIsSpiderman={setIsSpiderman}
               isDigitalClock={isDigitalClock}
               setIsDigitalClock={setIsDigitalClock}
+              isCalender={isCalender}
+              setIsCalender={setIsCalender}
             />
           </>
         )}
